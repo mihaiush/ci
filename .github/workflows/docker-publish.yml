@@ -9,10 +9,6 @@ on:
         type: string
         default: ''
     
-permissions:
-  contents: read
-  packages: write
-
 jobs:
   hadolint:
     runs-on: ubuntu-latest
