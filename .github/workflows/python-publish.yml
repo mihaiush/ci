@@ -26,7 +26,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v7
     - uses: actions/setup-python@v3
       with:
         python-version: ${{ env.PYTHON_VERSION }}
@@ -50,7 +50,7 @@ jobs:
     if: needs.lint.result == 'success' && contains(github.ref, '/tags/') && startsWith(github.ref_name, 'v')
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v7
     - uses: actions/setup-python@v3
       with:
         python-version: ${{ env.PYTHON_VERSION }}
