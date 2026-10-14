@@ -1,0 +1,76 @@
+on:
+  workflow_call:
+    inputs:
+      lint-flake8:
+        description: 'Run Flake8 at lint'
+        required: false
+        type: boolean
+        default: true
+      lint-pytest:
+        description: 'Run Pytest at lint'
+        required: false
+        type: boolean
+        default: false
+      lint-dependencies:
+        description: 'Shell snippet to install extra dependencies for lint'
+        required: false
+        type: string
+        default: ''
+      
+env:
+  PYTHON_VERSION: '3.12'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v3
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 flake8-bugbear flake8_simplify
+        pip install pytest 
+        ${{ inputs.lint-dependencies }}
+    - name: Flake8
+      if: ${{ inputs.lint-flake8 }}
+      run: |
+        flake8 -v
+    - name: Pytest
+      if: ${{ inputs.lint-pytest }}
+      run: |
+        python -m pytest -v
+
+  build:
+    needs: [lint]
+    if: needs.lint.result == 'success' && contains(github.ref, '/tags/') && startsWith(github.ref_name, 'v')
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v3
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install poetry 
+        poetry install
+    - name: Build
+      run: |
+        poetry build
+    - name: Release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TAG: ${{ github.ref_name }}      
+      run: |
+        gh release create $GITHUB_TAG $(find dist -name '*.tar.gz') $(find dist -name '*.whl') --generate-notes --latest --verify-tag
+    - name: Publish
+      env:
+        PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+      run: |
+        poetry publish -u "__token__" -p "${PYPI_TOKEN}"
+        
+        
+
