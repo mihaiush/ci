@@ -6,6 +6,7 @@
   "customManagers": [
     {
       "customType": "regex",
+      "managerFilePatterns": ["**/*"],
       "matchStrings": [
         "#\\s*renovate:\\s*datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)(\\s+registryUrl=(?<registryUrl>\\S+))?\\n.*[A-Z_]+_VERSION=\"(?<currentValue>[^\"]+)\""
       ],
