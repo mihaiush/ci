@@ -1,0 +1,28 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "matchStrings": [
+        "#\\s*renovate:\\s*datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)(\\s+registryUrl=(?<registryUrl>\\S+))?\\n.*[A-Z_]+_VERSION=\"(?<currentValue>[^\"]+)\""
+      ],
+      "versioningTemplate": "regex:^[^0-9]*(?<major>[0-9]+)([^0-9]+(?<minor>[0-9]+))?([^0-9]+(?<patch>[0-9]+))?([^0-9]+(?<build>[0-9]+))?([^0-9]+(?<revision>[0-9]+))?.*"
+    }
+  ],
+  "customDatasources": {
+    "version": {
+      "defaultRegistryUrlTemplate": "https://home.mihaiush.ro/cgi-bin/{{packageName}}-version",
+      "format": "plain"
+    }
+  },
+  "platformAutomerge": true,
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["*"],
+      "automerge": true
+    }
+  ]
+}
