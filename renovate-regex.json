@@ -10,9 +10,9 @@
         "/^Dockerfile$/"
       ],
       "matchStrings": [
-        "#\\s*renovate:\\s*datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)(\\s+registryUrl=(?<registryUrl>\\S+))?\\n(ENV|ARG)\\s+[A-Z_]+_VERSION=\"(?<currentValue>[^\"]+)\""
+        "#\\s*renovate:\\s*datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)(\\s+versioning=(?<versioning>\\S+))?(\\s+registryUrl=(?<registryUrl>\\S+))?\\n(ENV|ARG)\\s+[A-Z_]+_VERSION=\"(?<currentValue>[^\"]+)\""
       ],
-      "versioningTemplate": "loose"
+      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}loose{{/if}}"
     }
   ],
   "customDatasources": {
@@ -25,7 +25,7 @@
   "packageRules": [
     {
       "matchUpdateTypes": ["*"],
-      "automerge": true
+      "automerge": false
     }
   ]
 }
