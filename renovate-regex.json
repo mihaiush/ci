@@ -12,7 +12,7 @@
       "matchStrings": [
         "#\\s*renovate:\\s*datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)(\\s+registryUrl=(?<registryUrl>\\S+))?\\n(ENV|ARG)\\s+[A-Z_]+_VERSION=\"(?<currentValue>[^\"]+)\""
       ],
-      "versioningTemplate": "loose"
+      "versioningTemplate": "exact"
     }
   ],
   "customDatasources": {
