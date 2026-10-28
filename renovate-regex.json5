@@ -15,7 +15,7 @@
   ],
   "customDatasources": {
     "version": {
-      "defaultRegistryUrlTemplate": "https://home.mihaiush.ro/cgi-bin/{{packageName}}-version",
+      "defaultRegistryUrlTemplate": "https://home.mihaiush.ro/cgi-bin/version?package={{packageName}}",
       "format": "plain"
     }
   },
